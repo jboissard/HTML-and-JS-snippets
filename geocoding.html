@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html>
+
+<!-- 
+Developed on 04-Jan-2013
+Solution Providers Management Consulting
+Johan Boissard - johan.boissard@mailsp.com
+-->
+
+<head>
+<link rel="stylesheet" href="http://getbootstrap.com/dist/css/bootstrap.min.css">
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
+<style>
+	html,body {
+		height: 100%;
+	}
+	
+	body{
+		padding-top: 50px;
+	}
+	
+	.wrap{
+		min-height: 100%;
+		height: auto;
+		/* Negative indent footer by its height */
+		margin: 0 auto -20px;
+		/* Pad bottom by footer height */
+		padding: 0 0 20px;
+	}
+	
+	footer{
+		height: 20px;
+		background-color: #f5f5f5;
+		text-align: center;
+	}
+	
+	#raw {
+		display: none;
+	}
+	
+
+	
+
+
+</style>
+
+
+</head>
+
+<body>
+
+<div class="wrap">
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+		<a class="navbar-brand" href="#">Solution Providers</a>
+		</div>
+	</div>
+</div>
+
+<div class="container">
+
+
+<h1>Find geocode</h1>
+
+<p>In the text field below insert the address, then press the button</p>
+
+<form action="#" method="get">
+<textarea name="address" id="address" class="form-control" rows="6">
+Solution Providers Schweiz AG
+Management Consulting
+Neugutstrasse 89
+8600 D&uuml;bendorf/Z&uuml;rich
+Switzerland
+</textarea>
+
+<br>
+<input type="hidden" name="sensor" value="false">
+
+<input type="submit" value="Get Geocode" class="btn btn-primary">
+<input type="button" value="View full source" id="view_source" class="btn btn-default">
+
+</form>
+
+<div id="results">
+</div>
+
+<pre id="raw">
+</pre>
+
+</div><!-- /.container -->
+</div><!-- /.wrap -->
+
+ <footer>
+	<p><small>&copy; <a href="http://www.solutionproviders.com" target="_blank">Solution Providers</a> Schweiz AG 2014 - <a href="mailto: johan.boissard@mailsp.com">contact</a></small></p>
+</footer>
+
+
+
+<script>
+$("form").submit(function(){
+
+	// store address in var and replace 'umlauts' with other characters
+	var addressVal = $('#address').val()
+					.replace(/ä/g, "ae")
+					.replace(/ö/g, "oe")
+					.replace(/ü/g,"ue")
+	
+	$.ajax({
+		url: "http://maps.googleapis.com/maps/api/geocode/json",
+		type: 'GET',
+		dataType: 'text',
+		data: {sensor: "false", address: addressVal}
+	}).done(function(a) {
+		$('#raw').html(a)
+		
+		// parse json
+		var obj = jQuery.parseJSON(a);
+		
+		if(obj.status =="OK"){
+			$("#results").html(
+			'<table class="table table-striped">'+
+			'<tr>'+
+			'	<td>Formatted address</td>'+
+			'	<td>'+obj.results[0].formatted_address+'</td>'+
+			'</tr>'+
+			'<tr>'+
+			'	<td>Latitude</td>'+
+			'	<td>'+obj.results[0].geometry.location.lat+'</td>'+
+			'</tr>'+
+			'<tr>'+
+			'	<td>Longitude</td>'+
+			'	<td>'+obj.results[0].geometry.location.lng+'</td>'+
+			'</tr>'+
+			'</table>'
+			)
+		}
+		else{
+			$("#results").html('<i>No results found<i>')
+		}
+	});
+	
+	return false
+})
+
+
+$('#view_source').click(function(){
+	$('#raw').toggle()
+})
+</script>
+
+</body>
+
+</html>

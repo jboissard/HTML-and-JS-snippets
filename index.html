@@ -1,0 +1,63 @@
+<!doctype html>
+<html ng-app="myApp">
+  <head>
+
+
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+    </script>
+    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js">
+    </script>
+    <script type="text/javascript" src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.min.js">
+    </script>
+
+	<script src="js/angular.min.js"></script>
+
+	
+	<script src="js/todo.js"></script>
+	
+	
+	
+	
+	<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" media="screen" href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="css/todo.css">
+  </head>
+  <body>
+	<h2>Todo</h2>
+	<div ng-controller="TodoCtrl">
+		<span>{{remaining()}} of {{todos.length}} remaining</span>
+		[ <a href="" ng-click="archive()">archive</a> ]	
+		<ul class="unstyled">
+			<li ng-repeat="todo in todos">
+				<input type="checkbox" ng-model="todo.done">
+				<span class="done-{{todo.done}}">{{todo.text}}</span>
+			</li>
+		</ul>
+	<form ng-submit="addTodo()">
+		<input type="text" ng-model="todoText" size="30" placeholder="add new todo here">
+		<input class="btn-primary" type="submit" value="add">
+	</form>
+    <div>
+	
+	
+	<div>
+      <label>Name:</label>
+      <input type="text" ng-model="yourName" placeholder="Enter a name here">
+      <hr>
+      <h1>Hello {{yourName}}!</h1>
+    </div>
+	
+	<div class="container container-fluid" ng-controller="MainCtrl">
+       var1={{var1}}
+      <form class="form-horizontal" novalidate name="form" ng-submit="submit()">
+      <div class="well">
+        <div id="date" class="input-append" datetimez ng-model="var1">
+          <input data-format="MM-dd-yyyy" type="text" id="input1" name="input1"></input>
+          <span class="add-on">
+            <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+          </span>
+        </div>
+      </div>
+	</div>
+  </body>
+</html>
